@@ -222,13 +222,13 @@ def compute_up(expr, data, scope=None, **kwargs):
 @dispatch(Projection, Select)
 def compute_up(expr, data, scope=None, **kwargs):
     return data.with_only_columns(
-        first(compute(
+        *(first(compute(
             expr._child[field],
             scope,
             post_compute=False,
             return_type='native',
         ).inner_columns)
-        for field in expr.fields
+        for field in expr.fields)
     )
 
 

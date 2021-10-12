@@ -11,6 +11,7 @@ from pprint import pformat
 from weakref import WeakValueDictionary
 
 import toolz
+from datashape import dshape
 from toolz import unique, concat, first
 
 from ..compatibility import _strtypes
@@ -103,6 +104,9 @@ def resolve_args(cls, *args, **kwargs):
                     key,
                 ),
             )
+        if isinstance(value, dict):
+            value = frozenset(sorted(value.items(), key=first))  # dict 가 unhashable이어서 에러나는 문제 때문에
+
         attributes[key] = value
         added.add(key)
 
@@ -148,6 +152,8 @@ class Node(object):
 
     def _init(self, *args, **kwargs):
         for name, arg in resolve_args(type(self), *args, **kwargs).items():
+            if name == 'dshape':
+                arg = dshape(arg)
             _setattr(self, name, arg)
 
         _setattr(self, '_hash', None)
