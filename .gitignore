@@ -12,6 +12,8 @@ blaze.egg-info
 
 __conda_version__.txt
 .cache/
+/.idea/
 
 # test data
 blaze/examples/data/output.csv
+
