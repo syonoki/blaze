@@ -1,6 +1,13 @@
 from __future__ import absolute_import, division, print_function
+import sys
 
-from collections import Mapping, OrderedDict
+if sys.version_info.minor < 10:
+    from collections import Mapping, OrderedDict
+else:
+    from collections.abc import Mapping
+    from collections import OrderedDict
+
+
 import datetime
 from functools import reduce, partial
 import inspect

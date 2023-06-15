@@ -1,6 +1,11 @@
 from __future__ import absolute_import, division, print_function
 
-from collections import Iterable
+import sys
+
+if sys.version_info.minor < 10:
+    from collections import Iterable
+else:
+    from collections.abc import Iterable
 
 from datashape import DataShape
 from odo.utils import copydoc

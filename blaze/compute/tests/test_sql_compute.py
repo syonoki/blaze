@@ -13,7 +13,7 @@ import datashape
 from odo import into, discover
 import numpy as np
 import pandas as pd
-import pandas.util.testing as tm
+import pandas.testing as tm
 from pandas import DataFrame
 from toolz import unique
 

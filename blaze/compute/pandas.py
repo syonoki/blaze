@@ -21,7 +21,14 @@ import fnmatch
 import itertools
 from distutils.version import LooseVersion
 import warnings
-from collections import defaultdict, Iterable
+
+import sys
+
+if sys.version_info.minor < 10:
+    from collections import defaultdict, Iterable
+else:
+    from collections import defaultdict
+    from collections.abc import Iterable
 
 import numpy as np
 
@@ -41,8 +48,10 @@ from datashape import to_numpy_dtype
 from datashape.predicates import isscalar
 
 from odo import into
+
 try:
     import dask.dataframe as dd
+
     DaskDataFrame = dd.DataFrame
     DaskSeries = dd.Series
 except ImportError:
@@ -162,13 +171,13 @@ def compute_up_pd_interp(t, lhs, rhs, **kwargs):
     return lhs % rhs
 
 
-
 @dispatch(BinOp, (Series, DaskSeries))
 def compute_up(t, data, **kwargs):
     if isinstance(t.lhs, Expr):
         return t.op(data, t.rhs)
     else:
         return t.op(t.lhs, data)
+
 
 @compute_up.register(BinOp, (Series, DaskSeries), (Series, base, DaskSeries))
 @compute_up.register(BinOp, (Series, base, DaskSeries), (Series, DaskSeries))
@@ -196,7 +205,7 @@ def compute_up(expr, df, **kwargs):
 
 
 @dispatch(Selection, (Series, DataFrame, DaskSeries, DaskDataFrame),
-                     (Series, DaskSeries))
+          (Series, DaskSeries))
 def compute_up(expr, df, predicate, **kwargs):
     return df[predicate]
 
@@ -305,16 +314,19 @@ def compute_up(expr, data, **kwargs):
     name = type(expr).__name__
     return getattr(data.str, name)()
 
+
 @dispatch(Replace, Series)
 def compute_up(expr, data, **kwargs):
     max = expr.max is None and -1 or expr.max
     return data.str.replace(expr.old, expr.new, max)
+
 
 @dispatch(Pad, Series)
 def compute_up(expr, data, **kwargs):
     side = expr.side is None and 'left' or expr.side
     fillchar = expr.fillchar is None and ' ' or expr.fillchar
     return data.str.pad(expr.width, side, fillchar)
+
 
 @dispatch(StrCat, Series, Series)
 def compute_up(expr, lhs_data, rhs_data, **kwargs):
@@ -333,9 +345,11 @@ def compute_up(expr, data, **kwargs):
         return data.str[slice(*expr.slice)]
     return data.str[expr.slice]
 
+
 @dispatch(SliceReplace, Series)
 def compute_up(expr, data, **kwargs):
     return data.str.slice_replace(expr.start, expr.stop, expr.repl)
+
 
 def unpack(seq):
     """ Unpack sequence of length one
@@ -468,7 +482,7 @@ def compute_by(t, s, g, df):
         zip([name for name, _ in is_field[True]],
             [compute(col._child, {t._child: df}, return_type='native')
              for _, col in is_field[True]])
-        )
+    )
     )
 
     if list(is_field[False]):
@@ -719,6 +733,7 @@ def _merge(module):
             axis=1,
         )
 
+
 _merge(pd)
 _merge(dd)
 del _merge
@@ -771,6 +786,7 @@ def compute_up(expr, s, **kwargs):
     result = s.dt.total_seconds()
     result.name = expr._name
     return result
+
 
 @dispatch(UTCFromTimestamp, Series)
 def compute_up(expr, s, **kwargs):
@@ -886,7 +902,6 @@ def array_coalesce(expr, lhs, rhs, wrap=None, **kwargs):
 )
 def compute_up_coalesce(expr, lhs, rhs, **kwargs):
     return array_coalesce(expr, lhs, rhs, type(lhs))
-
 
 
 @dispatch(Coalesce, (Series, DaskSeries, base))

@@ -3,7 +3,7 @@ from blaze import compute, discover, dshape, into, join, concat, data
 from blaze.utils import example, filetext, filetexts
 from blaze.expr import symbol
 from pandas import DataFrame, Series
-import pandas.util.testing as tm
+import pandas.testing as tm
 from datashape.predicates import iscollection
 import numpy as np
 import pandas as pd

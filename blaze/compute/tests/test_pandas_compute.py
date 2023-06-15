@@ -7,7 +7,7 @@ from datetime import datetime, timedelta, date, time
 import numpy as np
 
 import pandas as pd
-import pandas.util.testing as tm
+import pandas.testing as tm
 from pandas import DataFrame, Series
 
 from string import ascii_lowercase

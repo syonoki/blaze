@@ -3,7 +3,12 @@ from ..dispatch import dispatch
 from ..expr import Expr
 from odo.backends.json import JSON, JSONLines
 from odo import into
-from collections import Iterator
+
+import sys
+if sys.version_info.minor < 10:
+    from collections import Iterator
+else:
+    from collections.abc import Iterator
 from odo.utils import records_to_tuples
 
 

@@ -1,7 +1,13 @@
 from __future__ import absolute_import, division, print_function
 
 import datetime
-from collections import Iterator
+
+import sys
+
+if sys.version_info.minor < 10:
+    from collections import Iterator
+else:
+    from collections.abc import Iterator
 from itertools import islice, product
 import os
 import re
@@ -169,9 +175,9 @@ def normalize(s):
     """
     if isinstance(s, sa.sql.Selectable):
         s = literal_compile(s)
-    s = re.sub(r'(\(|\))', r' \1 ', s)       # normalize spaces around parens
+    s = re.sub(r'(\(|\))', r' \1 ', s)  # normalize spaces around parens
     s = ' '.join(s.strip().split()).lower()  # normalize whitespace and case
-    s = re.sub(r'(alias)_?\d*', r'\1', s)    # normalize aliases
+    s = re.sub(r'(alias)_?\d*', r'\1', s)  # normalize aliases
     return re.sub(r'__([A-Za-z_][A-Za-z_0-9]*)', r'\1', s)
 
 
@@ -226,6 +232,7 @@ class attribute(object):
     f : callable
         The function to execute.
     """
+
     def __init__(self, f):
         self._f = f
 

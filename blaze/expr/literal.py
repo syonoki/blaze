@@ -1,6 +1,11 @@
 from __future__ import absolute_import, division, print_function
+import sys
 
-from collections import Iterator, Mapping
+if sys.version_info.minor < 10:
+    from collections import Mapping, Iterator
+else:
+    from collections.abc import Mapping, Iterator
+
 import itertools
 
 import datashape

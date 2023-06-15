@@ -11,7 +11,12 @@
 """
 from __future__ import absolute_import, division, print_function
 
-from collections import Iterable, Mapping
+import sys
+if sys.version_info.minor < 10:
+    from collections import Mapping, Iterable, Iterator
+else:
+    from collections.abc import Mapping, Iterable, Iterator
+
 import itertools
 import numbers
 import fnmatch
@@ -21,7 +26,6 @@ import math
 import random
 from uuid import uuid4
 
-from collections import Iterator
 from functools import partial
 
 from datashape import Option, to_numpy_dtype, discover

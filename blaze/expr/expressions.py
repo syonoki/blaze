@@ -1,6 +1,12 @@
 from __future__ import absolute_import, division, print_function
 
-from collections import Mapping
+import sys
+
+if sys.version_info.minor < 10:
+    from collections import Mapping
+else:
+    from collections.abc import Mapping
+
 from keyword import iskeyword
 import re
 
@@ -25,7 +31,7 @@ from datashape.predicates import (
 import numpy as np
 from odo.utils import copydoc
 import toolz
-from toolz import concat, memoize, partial, first, unique, merge
+from toolz import concat, memoize, partial, first
 from toolz.curried import map, filter
 
 from ..compatibility import _strtypes, builtins, boundmethod, PY2
@@ -34,7 +40,6 @@ from .core import (
     _setattr,
     common_subexpression,
     path,
-    resolve_args,
     subs,
 )
 from .method_dispatch import select_functions

@@ -3,7 +3,11 @@ from __future__ import absolute_import, division, print_function
 import sys
 from types import MethodType
 
-import pandas.util.testing as tm
+try:
+    import pandas.testing as tm
+except:
+    import pandas.testing as tm
+
 from toolz import identity
 
 PY3 = sys.version_info[0] == 3
@@ -112,7 +116,7 @@ except ImportError:
 
 def assert_series_equal(left, right, check_names=True, **kwargs):
     """Backwards compatibility wrapper for
-    ``pandas.util.testing.assert_series_equal``
+    ``pandas.testing.assert_series_equal``
 
     Examples
     --------
@@ -127,7 +131,7 @@ def assert_series_equal(left, right, check_names=True, **kwargs):
 
     See Also
     --------
-    pandas.util.testing.assert_series_equal
+    pandas.testing.assert_series_equal
     """
     try:
         return tm.assert_series_equal(left, right, check_names=check_names,

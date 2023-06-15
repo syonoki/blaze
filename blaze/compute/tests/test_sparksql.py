@@ -22,7 +22,7 @@ from functools import partial
 from py4j.protocol import Py4JJavaError
 import numpy as np
 import pandas as pd
-import pandas.util.testing as tm
+import pandas.testing as tm
 from blaze import compute, symbol, into, by, sin, exp, cos, tan, join
 from blaze.types import iscorescalar
 

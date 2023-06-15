@@ -7,7 +7,7 @@ from blaze.utils import raises
 from odo import URL, CSV
 
 import pandas as pd
-import pandas.util.testing as tm
+import pandas.testing as tm
 
 from functools import partial
 

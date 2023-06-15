@@ -5,7 +5,14 @@ import os
 from toolz import curry, concat
 import pandas as pd
 import numpy as np
-from collections import Iterator, Iterable
+
+import sys
+
+if sys.version_info.minor < 10:
+    from collections import Iterator, Iterable
+else:
+    from collections.abc import Iterator, Iterable
+
 from odo import into, Temp
 from odo.backends.csv import CSV
 from odo.backends.url import URL

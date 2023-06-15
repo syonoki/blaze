@@ -7,7 +7,7 @@ from datashape import discover, dshape
 
 import numpy as np
 
-import pandas.util.testing as tm
+import pandas.testing as tm
 
 from odo import into
 from blaze import by

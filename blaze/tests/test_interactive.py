@@ -7,7 +7,7 @@ from types import MethodType
 from datashape import dshape
 from datashape.util.testing import assert_dshape_equal
 import pandas as pd
-import pandas.util.testing as tm
+import pandas.testing as tm
 import pytest
 import numpy as np
 from odo import into, append

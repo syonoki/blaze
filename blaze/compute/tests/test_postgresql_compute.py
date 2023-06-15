@@ -12,7 +12,7 @@ import os
 import numpy as np
 import pandas as pd
 
-import pandas.util.testing as tm
+import pandas.testing as tm
 
 from datashape import dshape
 from odo import odo, drop, discover
