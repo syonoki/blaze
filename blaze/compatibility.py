@@ -4,7 +4,7 @@ import sys
 from types import MethodType
 
 try:
-    import pandas.testing as tm
+    import pandas.util.testing as tm
 except:
     import pandas.testing as tm
 
